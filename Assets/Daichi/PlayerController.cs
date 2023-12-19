@@ -16,10 +16,16 @@ public class PlayerController : MonoBehaviour
     private InputActionReference left;
     [SerializeField] 
     private InputActionReference right;
+    [SerializeField] 
+    private InputActionReference shootButon;
     [SerializeField]
-    private SteamVR_Action_Vector2 joystick = SteamVR_Actions._default.Move;
+    private SteamVR_Action_Vector2 joystick;
+    [SerializeField]
+    private SteamVR_Action_Boolean trigger;
 
     private Rigidbody rigidbody;
+    private Animator animator;
+    private MP mp;
 
     private void Start() {
         rigidbody = GetComponent<Rigidbody>();
@@ -33,7 +39,12 @@ public class PlayerController : MonoBehaviour
             back.action.Enable();
             left.action.Enable();
             right.action.Enable();
+            shootButon.action.Enable();
         }
+
+        animator = GetComponent<Animator>();
+        mp = GetComponent<MP>();
+
     }
 
     private void OnDisable() {
@@ -41,10 +52,18 @@ public class PlayerController : MonoBehaviour
         back.action.Disable();
         left.action.Disable();
         right.action.Disable();
+        shootButon.action.Disable();
     }
 
     private void FixedUpdate() {
+        ProcessMove();
+    }
 
+    private void Update() {
+        ProcessShoot();
+    }
+
+    private void ProcessMove() {
         Vector3 moveDirection = Vector3.zero;
         //Quaternion forwardQuaternion = Quaternion.Euler(Vector3.Scale(transform.forward, new Vector3(1, 0, 1)));
         Vector3 forwardVec = Vector3.Scale(transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -73,11 +92,26 @@ public class PlayerController : MonoBehaviour
         }
         if (!inputVec.Equals(Vector2.zero)) {
             Quaternion inputQuaternion = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.y));
-            moveDirection =  inputQuaternion*forwardVec * speed;
+            moveDirection = inputQuaternion * forwardVec * speed;
         }
         moveDirection.y = rigidbody.velocity.y;
         rigidbody.velocity = moveDirection;
-        //rigidbody.velocity = moveDirection * Time.deltaTime * 1000;
+    }
+
+    private void ProcessShoot() {
+        bool shoot;
+        if (SteamVR.instance != null) {
+            shoot = trigger.GetStateDown(SteamVR_Input_Sources.LeftHand);
+        } else {
+            shoot = shootButon.action.WasPressedThisFrame();
+        }
+
+
+        if (shoot && mp.GetMP() >= 1) {
+            mp.RemoveMP(1);
+            animator.SetTrigger("Attack");
+        }
+
     }
 
 }
