@@ -26,6 +26,10 @@ public class FireballTick : MonoBehaviour
     {
         if (collision.gameObject != projectileManager.holder) {
             Destroy(this.gameObject);
+            HP hp = collision.gameObject.GetComponent<HP>();
+            if(hp) {
+                hp.removeHP(5);
+            }
         }
     }
 
