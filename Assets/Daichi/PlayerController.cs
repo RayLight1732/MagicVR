@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
             Quaternion inputQuaternion = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.y));
             moveDirection =  inputQuaternion*forwardVec * speed;
         }
-        Debug.Log(moveDirection);
         moveDirection.y = rigidbody.velocity.y;
         rigidbody.velocity = moveDirection;
         //rigidbody.velocity = moveDirection * Time.deltaTime * 1000;
