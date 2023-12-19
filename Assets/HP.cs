@@ -6,7 +6,26 @@ using UnityEngine;
 public class HP : MonoBehaviour
 {
     public int maxHP;
-    private int hp;
+
+    private int _hp;
+    private int hp
+    {
+        set {
+            _hp = value;
+            if (OnChangeHandler != null)
+            {
+                OnChangeHandler(this, value);
+            }
+        }
+        get => _hp;
+    }
+
+    public event EventHandler<int> OnChangeHandler;
+
+    private void OnEnable()
+    {
+        _hp = maxHP;
+    }
     // Start is called before the first frame update
     void Start()
     {
