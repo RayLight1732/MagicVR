@@ -10,6 +10,7 @@ public class ShootFireball : StateMachineBehaviour
     {
         Debug.Log("shoot2");
         GameObject obj = (GameObject)Resources.Load("Projectile");
+        obj.GetComponent<ProjectileManager>().holder = animator.gameObject;
         Quaternion rotation = obj.transform.rotation;
         rotation = Camera.main.transform.rotation * rotation;
         Vector3 playerPos = Camera.main.transform.position;

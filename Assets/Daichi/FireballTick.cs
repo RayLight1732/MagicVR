@@ -7,10 +7,12 @@ public class FireballTick : MonoBehaviour
 
     protected Vector3 forward;
     protected Rigidbody rb;
+    private ProjectileManager projectileManager;
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        projectileManager = GetComponent<ProjectileManager>();
         Destroy(this.gameObject,5f);
     }
 
@@ -22,7 +24,9 @@ public class FireballTick : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);
+        if (collision.gameObject != projectileManager.holder) {
+            Destroy(this.gameObject);
+        }
     }
 
     public void setForward(Vector3 forward) {
