@@ -17,7 +17,7 @@ public class Enemy2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EnemyController.SetBool("Attack",false);
+  
     }
 
     // Update is called once per frame
@@ -25,8 +25,7 @@ public class Enemy2 : MonoBehaviour
     {
         var speed = Vector3.zero;
         speed.z = EnemySpeed;
-        var rot = transform.eulerAngles;
-        EnemyController.SetBool("Attack",false);   
+        var rot = transform.eulerAngles; 
         if (Target)
         {
             transform.LookAt(Target.transform);
@@ -49,6 +48,7 @@ public class Enemy2 : MonoBehaviour
             {
                 // 追跡モードのロジック
                 MoveTowardsTarget();
+                EnemyController.SetBool("Attack", false);
                 //this.transform.Translate(speed);
             }
         }
@@ -87,6 +87,7 @@ public class Enemy2 : MonoBehaviour
         if (other.tag == "Player")
         {
             Target = other.gameObject;
+            EnemyController.SetBool("Run", true);
         }
     }
 
@@ -95,6 +96,7 @@ public class Enemy2 : MonoBehaviour
         if (other.tag == "Player")
         {
             Target = null;
+            EnemyController.SetBool("Run", false);
         }
     }
 }
