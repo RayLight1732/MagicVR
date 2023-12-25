@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HP : MonoBehaviour
 {
     public int maxHP;
+    public Image HPGage;
 
     private int _hp;
     private int hp
@@ -15,6 +17,8 @@ public class HP : MonoBehaviour
             if (OnChangeHandler != null)
             {
                 OnChangeHandler(this, value);
+                float percent = (float)_hp / maxHP;
+                HPGage.fillAmount = percent;
             }
         }
         get => _hp;

@@ -72,3 +72,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /[Aa]ssets/TerrainSampleAssets/*
+Assets/Conifers \[BOTD\]/Conifers \[BOTD\] URP_14plus.unitypackage.meta
+Assets/Conifers \[BOTD\]/CTI_URP_14plus_runtime.unitypackage.meta
+Assets/Conifers \[BOTD\]/Render Pipeline Support/Built-in RP/VSPro_CTIShaderController.unitypackage.meta
