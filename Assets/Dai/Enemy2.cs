@@ -13,7 +13,7 @@ public class Enemy2 : MonoBehaviour
     public Animator EnemyController;
     private GameObject Target;
     private bool isInAttackMode; // 攻撃モードかどうかを示すフラグ
-
+    Vector3 speed = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class Enemy2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var speed = Vector3.zero;
+        Death();
         speed.z = EnemySpeed;
         var rot = transform.eulerAngles; 
         if (Target)
@@ -97,6 +97,14 @@ public class Enemy2 : MonoBehaviour
         {
             Target = null;
             EnemyController.SetBool("Run", false);
+        }
+    }
+
+    private void Death(){
+        HP hp = this.GetComponent<HP>();
+        if(hp.getHP()<=0){
+            EnemyController.SetBool("Death", true);
+            speed.z = 0;
         }
     }
 }

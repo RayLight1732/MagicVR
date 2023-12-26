@@ -15,7 +15,7 @@ public class BearHPCallback : MonoBehaviour
     void OnHPChange(object target,int value)
     {
         if (value == 0) {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
     void Start()
