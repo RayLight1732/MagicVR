@@ -8,6 +8,7 @@ public class PlayerMPCallback : MonoBehaviour
 
     private const string propertyName = "_GrayStrength";
     private const string propertyName2 = "_ShakeStrength";
+    private Bluetooth.Bluetooth bluetooth = new Bluetooth.Bluetooth();
 
     [SerializeField]
     public GameObject filter;
@@ -17,6 +18,7 @@ public class PlayerMPCallback : MonoBehaviour
     {
         MP mp = gameObject.GetComponent<MP>();
         mp.OnChangeHandler += OnMPChange;
+        bluetooth.Connect("ESP32Test2");
     }
 
     void OnMPChange(object target,int value)
@@ -27,6 +29,7 @@ public class PlayerMPCallback : MonoBehaviour
         {
             material.SetFloat(propertyName, Mathf.Max(0, 1 - f - 0.2f));
             material.SetFloat(propertyName2, Mathf.Max(0, 1 - f - 0.2f));
+            bluetooth.Write((Mathf.Max(0, 1 - f - 0.2f)*3.3).ToString()+"\n");
         }
         else
         {
@@ -42,5 +45,9 @@ public class PlayerMPCallback : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private void OnDestroy() {
+        bluetooth.Close();
     }
 }

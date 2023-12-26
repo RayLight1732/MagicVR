@@ -34,7 +34,7 @@ namespace Bluetooth
 
         public void Close()
         {
-
+            cls.Call("disconnect");
         }
     }
 }

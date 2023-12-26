@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+#if UNITY_EDITOR
 using Valve.VR;
-using UnityEditor.TerrainTools;
-using UnityEngine.EventSystems;
+#endif
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -35,10 +32,12 @@ public class VRPlayerController : MonoBehaviour
     [SerializeField]
     private InputActionReference triggerXR;
     //SteamVR
+#if UNITY_EDITOR
     [SerializeField]
     private SteamVR_Action_Vector2 joystickSteamVR;
     [SerializeField]
     private SteamVR_Action_Boolean triggerSteamVR;
+#endif
     //SteamVR fallback
     [SerializeField]
     private InputActionReference forward;
@@ -54,7 +53,6 @@ public class VRPlayerController : MonoBehaviour
     private Rigidbody componentRigidbody;
     private Animator animator;
     private MP mp;
-    
 
     private void Awake()
     {
@@ -74,10 +72,12 @@ public class VRPlayerController : MonoBehaviour
     }
 
 
+
     private void OnEnable()
     {
         if (isSteamVR)
         {
+#if UNITY_EDITOR
             if (SteamVR.instance != null)
             {
 
@@ -90,6 +90,7 @@ public class VRPlayerController : MonoBehaviour
                 right.action.Enable();
                 triggerFallback.action.Enable();
             }
+#endif
         }
         else
         {
@@ -120,6 +121,7 @@ public class VRPlayerController : MonoBehaviour
     {
         if (isSteamVR)
         {
+#if UNITY_EDITOR
             if (SteamVR.instance != null)
             {
 
@@ -132,6 +134,7 @@ public class VRPlayerController : MonoBehaviour
                 right.action.Disable();
                 triggerFallback.action.Disable();
             }
+#endif
         }
         else
         {
@@ -146,17 +149,17 @@ public class VRPlayerController : MonoBehaviour
     {
         Vector3 moveDirection = Vector3.zero;
         //Quaternion forwardQuaternion = Quaternion.Euler(Vector3.Scale(transform.forward, new Vector3(1, 0, 1)));
-        Vector3 forwardVec = Vector3.Scale(transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector2 inputVec;
+        Vector3 forwardVec = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector2 inputVec = Vector2.zero;
         if (isSteamVR)
         {
+#if UNITY_EDITOR
             if (SteamVR.instance != null)
             {
                 inputVec = joystickSteamVR.GetLastAxis(SteamVR_Input_Sources.LeftHand);
             }
             else
             {
-                inputVec = Vector2.zero;
                 if (forward.action.IsPressed())
                 {
                     inputVec.y = 1;
@@ -174,8 +177,8 @@ public class VRPlayerController : MonoBehaviour
                     inputVec.x = -1;
                 }
             }
-        }
-        else
+#endif
+        } else
         {
             inputVec = joystickXRInput;
         }
@@ -204,9 +207,10 @@ public class VRPlayerController : MonoBehaviour
     }
     private void ProcessShoot()
     {
-        bool shoot;
+        bool shoot = false;
         if (isSteamVR)
         {
+#if UNITY_EDITOR
             if (SteamVR.instance != null)
             {
                 shoot = triggerSteamVR.GetStateDown(SteamVR_Input_Sources.LeftHand);
@@ -215,6 +219,7 @@ public class VRPlayerController : MonoBehaviour
             {
                 shoot = triggerFallback.action.WasPressedThisFrame();
             }
+#endif
         } 
         else
         {
