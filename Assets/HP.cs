@@ -14,7 +14,7 @@ public class HP : MonoBehaviour
     {
         set {
             _hp = value;
-            if (OnChangeHandler != null)
+            if (OnChangeHandler != null && HPGage != null)
             {
                 OnChangeHandler(this, value);
                 float percent = (float)_hp / maxHP;

@@ -22,11 +22,11 @@ public class FireballTick : MonoBehaviour
         rb.velocity = forward * 10;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject != projectileManager.holder) {
+        if (other.gameObject != projectileManager.holder) {
             Destroy(this.gameObject);
-            HP hp = collision.gameObject.GetComponent<HP>();
+            HP hp = other.gameObject.GetComponent<HP>();
             if(hp) {
                 hp.removeHP(5);
             }
