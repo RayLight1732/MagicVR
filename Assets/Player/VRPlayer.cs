@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 using Valve.VR;
 #endif
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 using UnityEditor;
 #endif
 
@@ -32,7 +32,7 @@ public class VRPlayerController : MonoBehaviour
     [SerializeField]
     private InputActionReference triggerXR;
     //SteamVR
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     [SerializeField]
     private SteamVR_Action_Vector2 joystickSteamVR;
     [SerializeField]
@@ -77,7 +77,7 @@ public class VRPlayerController : MonoBehaviour
     {
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
 
@@ -121,7 +121,7 @@ public class VRPlayerController : MonoBehaviour
     {
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
 
@@ -153,7 +153,7 @@ public class VRPlayerController : MonoBehaviour
         Vector2 inputVec = Vector2.zero;
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
                 inputVec = joystickSteamVR.GetLastAxis(SteamVR_Input_Sources.LeftHand);
@@ -210,7 +210,7 @@ public class VRPlayerController : MonoBehaviour
         bool shoot = false;
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
                 shoot = triggerSteamVR.GetStateDown(SteamVR_Input_Sources.LeftHand);
