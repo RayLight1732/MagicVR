@@ -68,7 +68,7 @@ public class VRPlayerController : MonoBehaviour
         {
             child = Instantiate(xrInteractionToolkitPlayer, transform, false);
         }
-        GetComponent<PlayerMPCallback>().filter = child.GetComponent<FIlterGetter>().GetFilter();
+        GetComponent<PlayerMPCallback>().filter = child.GetComponent<FilterGetter>().GetFilter();
     }
 
 

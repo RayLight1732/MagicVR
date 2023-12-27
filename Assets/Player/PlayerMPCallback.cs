@@ -18,7 +18,7 @@ public class PlayerMPCallback : MonoBehaviour
     {
         MP mp = gameObject.GetComponent<MP>();
         mp.OnChangeHandler += OnMPChange;
-        bluetooth.Connect("ESP32Test2");
+        Debug.Log(bluetooth.Connect("ESP32Test2"));
     }
 
     void OnMPChange(object target,int value)

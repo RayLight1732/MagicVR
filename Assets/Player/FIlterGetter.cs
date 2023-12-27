@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FIlterGetter : MonoBehaviour
+public class FilterGetter : MonoBehaviour
 {
+
     // Start is called before the first frame update
     [SerializeField]
     private GameObject filter;
