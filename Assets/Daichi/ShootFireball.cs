@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class ShootFireball : StateMachineBehaviour
 {
+
+    public GameObject fireball;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("shoot2");
-        GameObject obj = (GameObject)Resources.Load("Projectile");
-        obj.GetComponent<ProjectileManager>().holder = animator.gameObject;
-        Quaternion rotation = obj.transform.rotation;
-        rotation = Camera.main.transform.rotation * rotation;
-        Vector3 playerPos = Camera.main.transform.position;
-        GameObject bullet = Instantiate(obj, playerPos, rotation);
-        bullet.GetComponent<FireballTick>().setForward(Camera.main.transform.forward);
+        //GameObject obj = (GameObject)Resources.Load("Projectile");
+
+        fireball.GetComponent<ProjectileManager>().holder = animator.gameObject;
+        Quaternion rotation = fireball.transform.rotation;
+        Transform shootTransform = animator.gameObject.GetComponent<VRPlayerController>().GetShootTransform();
+        rotation = shootTransform.rotation * rotation;
+        GameObject bullet = Instantiate(fireball, shootTransform.position, rotation);
+        
+        bullet.transform.forward =shootTransform.forward;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

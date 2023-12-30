@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class FilterGetter : MonoBehaviour
+public class ObjectGetter : MonoBehaviour
 {
 
     // Start is called before the first frame update
     [SerializeField]
     private GameObject filter;
+    [SerializeField]
+    private GameObject lefthand;
     void Start()
     {
         
@@ -18,4 +20,6 @@ public class FilterGetter : MonoBehaviour
     }
 
     public GameObject GetFilter() { return filter; }
+
+    public GameObject GetLeftHand() { return lefthand; }
 }

@@ -55,6 +55,7 @@ public class VRPlayerController : MonoBehaviour
     private Rigidbody componentRigidbody;
     private Animator animator;
     private MP mp;
+    private ObjectGetter objectGetter;
 
     private void Awake()
     {
@@ -72,7 +73,8 @@ public class VRPlayerController : MonoBehaviour
         {
             child = Instantiate(xrInteractionToolkitPlayer, transform, false);
         }
-        GetComponent<PlayerMPCallback>().filter = child.GetComponent<FilterGetter>().GetFilter();
+        objectGetter = GetComponentInChildren<ObjectGetter>();
+        GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
     }
 
 
@@ -236,12 +238,22 @@ public class VRPlayerController : MonoBehaviour
             animator.SetTrigger("Attack");
         }
     }
+
+
+    public Transform GetShootTransform()
+    {
+        Transform t = objectGetter.GetLeftHand().transform;
+        t.position += t.forward;
+        return t;
+    }
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(VRPlayerController))]
     public class VRPlayerControllerEditor : Editor
     {
 
         SerializedProperty speed;
+        SerializedProperty lefthand;
 
         SerializedProperty isSteamVR;
 
@@ -266,7 +278,7 @@ public class VRPlayerController : MonoBehaviour
             speed = serializedObject.FindProperty(nameof(VRPlayerController.speed));
 
             isSteamVR = serializedObject.FindProperty(nameof(VRPlayerController.isSteamVR));
-    
+
             xrInteractionToolkitPlayer = serializedObject.FindProperty(nameof(VRPlayerController.xrInteractionToolkitPlayer));
             joystickXR = serializedObject.FindProperty(nameof(VRPlayerController.joystickXR));
             triggerXR = serializedObject.FindProperty(nameof(VRPlayerController.triggerXR));
@@ -289,6 +301,7 @@ public class VRPlayerController : MonoBehaviour
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(speed);
+            EditorGUILayout.PropertyField(lefthand);
 
             EditorGUILayout.PropertyField(isSteamVR);
             if (isSteamVR.boolValue)
@@ -298,6 +311,7 @@ public class VRPlayerController : MonoBehaviour
                     EditorGUILayout.PropertyField(steamVRPlayer);
                     EditorGUILayout.PropertyField(joystickSteamVR);
                     EditorGUILayout.PropertyField(triggerSteam);
+                    
 
                     EditorGUI.indentLevel++;
                     if (fallbackTrigger.isExpanded = EditorGUILayout.Foldout(fallbackTrigger.isExpanded, "Fallback"))
