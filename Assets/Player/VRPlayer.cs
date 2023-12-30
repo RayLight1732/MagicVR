@@ -20,8 +20,10 @@ public class VRPlayerController : MonoBehaviour
 
     [SerializeField]
     private bool isSteamVR = false;
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     [SerializeField]
     private GameObject steamVRPlayer;
+#endif
     [SerializeField]
     private GameObject xrInteractionToolkitPlayer;
 
@@ -59,10 +61,12 @@ public class VRPlayerController : MonoBehaviour
         componentRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         mp = GetComponent<MP>();
-        GameObject child;
+        GameObject child = null;
         if (isSteamVR)
         {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             child = Instantiate(steamVRPlayer, transform, false);
+#endif
         }
         else
         {
