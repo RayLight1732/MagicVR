@@ -248,11 +248,12 @@ public class VRPlayerController : MonoBehaviour
         }
     }
 
+    private static Vector3 forwardOffset = new Vector3(0.1f, 0.1f, 0.1f);
 
     public Transform GetShootTransform()
     {
         Transform t = objectGetter.GetLeftController().transform;
-        t.position += t.forward;
+        t.position += t.forward.Multiply(forwardOffset);
         return t;
     }
 
