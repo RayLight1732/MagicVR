@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filter: {fileID: 2564514443942972366}
+  lefthand: {fileID: 3620574034783157361}
 --- !u!1 &289153096717652889
 GameObject:
   m_ObjectHideFlags: 0

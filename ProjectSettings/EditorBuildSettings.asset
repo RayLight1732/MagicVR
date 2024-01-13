@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Daichi/Daichi.unity
     guid: 73a8059619fb6f846b2a1b80c9874d8e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Daichi/TerrainTest.unity
     guid: 4c746c1b16f992e469ee5bea552ebbe2
+  - enabled: 1
+    path: Assets/Daichi/CollisionTest.unity
+    guid: 7b774c4d1553ec141b222e859331b5ab
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: f426000537fa6e443a1915d92ad763f9,
       type: 2}

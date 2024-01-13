@@ -119,7 +119,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -167,3 +167,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d980b8342086846a1d1d79fc2c5577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireball: {fileID: 7836935056689795348, guid: b6f2e818c71ab3a48bbe42ac0af3a02d,
+    type: 3}
