@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
 using Valve.VR;
+using Unity.XR.CoreUtils;
 #endif
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
 using UnityEditor;
@@ -114,6 +115,13 @@ public class VRPlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         ProcessMove();
+
+        Vector3 localPosition = objectGetter.GetHead().transform.localPosition;
+        Vector3 worldPosition = objectGetter.GetHead().transform.position;
+        worldPosition.y = transform.position.y;
+        transform.position = worldPosition;
+        objectGetter.GetCameraOffset().transform.localPosition = new Vector3(-localPosition.x, objectGetter.GetCameraOffset().transform.localPosition.y, -localPosition.z);
+
     }
 
     private void Update()
@@ -151,6 +159,7 @@ public class VRPlayerController : MonoBehaviour
 
     private void ProcessMove() 
     {
+       
         Vector3 moveDirection = Vector3.zero;
         //Quaternion forwardQuaternion = Quaternion.Euler(Vector3.Scale(transform.forward, new Vector3(1, 0, 1)));
         Vector3 forwardVec = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -192,7 +201,9 @@ public class VRPlayerController : MonoBehaviour
             moveDirection = inputQuaternion * forwardVec * speed;
         }
         moveDirection.y = componentRigidbody.velocity.y;
+
         componentRigidbody.velocity = moveDirection;
+        
         
     }
 
@@ -201,13 +212,11 @@ public class VRPlayerController : MonoBehaviour
     private void OnJoystickPerformed(InputAction.CallbackContext context)
     {
         joystickXRInput = context.ReadValue<Vector2>();
-        Debug.Log(joystickXRInput);
     }
 
     private void OnJoystickCanceled(InputAction.CallbackContext context)
     {
         joystickXRInput = Vector2.zero;
-        Debug.Log(joystickXRInput);
     }
     private void ProcessShoot()
     {
@@ -236,6 +245,15 @@ public class VRPlayerController : MonoBehaviour
             animator.SetTrigger("Attack");
         }
     }
+
+
+    public Transform GetShootTransform()
+    {
+        Transform t = objectGetter.GetLeftController().transform;
+        t.position += t.forward;
+        return t;
+    }
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(VRPlayerController))]
     public class VRPlayerControllerEditor : Editor
