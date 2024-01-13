@@ -301,7 +301,6 @@ public class VRPlayerController : MonoBehaviour
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(speed);
-            EditorGUILayout.PropertyField(lefthand);
 
             EditorGUILayout.PropertyField(isSteamVR);
             if (isSteamVR.boolValue)

@@ -1,5 +1,6 @@
+using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
-using Valve.VR.InteractionSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Fireball : MonoBehaviour
@@ -12,6 +13,8 @@ public class Fireball : MonoBehaviour
     private GameObject effect;
     [SerializeField]
     private GameObject parent;
+
+    public int speed;
 
     private bool fire = false;
     void Start()
@@ -26,7 +29,7 @@ public class Fireball : MonoBehaviour
     {
         if (fire)
         {
-            rb.velocity = transform.forward * 10;
+            rb.velocity = transform.forward * speed;
         }
     }
 
@@ -38,7 +41,6 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("on trigger");
         if (other.gameObject != holder)
         {
 
@@ -47,7 +49,7 @@ public class Fireball : MonoBehaviour
             {
                 hp.removeHP(5);
             }
-            Instantiate(effect,transform);
+            Instantiate(effect,transform.position,transform.rotation);
             projectileManager.DestroyItself();
         }
     }
