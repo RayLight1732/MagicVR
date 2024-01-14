@@ -29,7 +29,7 @@ public class SwordDamageHandler : MonoBehaviour
         if (hp != null)
         {
             Debug.Log(speed);
-            hp.removeHP((int)(speed*10));
+            hp.removeHP((int)(speed*30));
         }
     }
 }

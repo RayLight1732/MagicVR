@@ -932,6 +932,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FIreBall
       objectReference: {fileID: 0}
+    - target: {fileID: 8106125385902462413, guid: b6f2e818c71ab3a48bbe42ac0af3a02d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

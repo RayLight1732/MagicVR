@@ -241,19 +241,18 @@ public class VRPlayerController : MonoBehaviour
             shoot = triggerXR.action.WasPressedThisFrame();
         }
 
-        if (shoot && mp.GetMP() >= 1)
+        if (shoot && mp.GetMP() >= 1 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             mp.RemoveMP(1);
             animator.SetTrigger("Attack");
         }
     }
 
-    private static Vector3 forwardOffset = new Vector3(0.1f, 0.1f, 0.1f);
 
     public Transform GetShootTransform()
     {
         Transform t = objectGetter.GetLeftController().transform;
-        t.position += t.forward.Multiply(forwardOffset);
+        t.position += t.forward*0.1f;
         return t;
     }
 

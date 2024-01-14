@@ -39,18 +39,21 @@ public class Fireball : MonoBehaviour
         
     }
 
+    private bool collided = false;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject != holder)
+        if (other.gameObject != holder && !collided)
         {
-
+            collided = true;
             HP hp = other.gameObject.GetComponent<HP>();
             if (hp)
             {
                 hp.removeHP(5);
             }
             Instantiate(effect,transform.position,transform.rotation);
-            projectileManager.DestroyItself();
+            GetComponent<ParticleSystem>().Stop(true,ParticleSystemStopBehavior.StopEmitting);
+            projectileManager.DestroyItself(1);
         }
     }
 
