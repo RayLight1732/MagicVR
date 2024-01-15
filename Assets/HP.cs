@@ -9,8 +9,8 @@ public class HP : MonoBehaviour
     public int maxHP;
     public Image HPGage;
 
-    private int _hp;
-    private int hp
+    private double _hp;
+    private double hp
     {
         set {
             _hp = value;
@@ -24,7 +24,7 @@ public class HP : MonoBehaviour
         get => _hp;
     }
 
-    public event EventHandler<int> OnChangeHandler;
+    public event EventHandler<double> OnChangeHandler;
 
     private void OnEnable()
     {
@@ -42,7 +42,7 @@ public class HP : MonoBehaviour
 
     }
 
-    public void setHP(int hp)
+    public void setHP(double hp)
     {
         if (hp <= maxHP)
         {
@@ -50,14 +50,14 @@ public class HP : MonoBehaviour
         }
     }
 
-    public int getHP() { return hp; }
+    public double getHP() { return hp; }
 
 
-    public void addHP(int value)
+    public void addHP(double value)
     {
         hp = Math.Min(hp + value, maxHP);
     }
-    public void removeHP(int value)
+    public void removeHP(double value)
     {
         hp = Math.Max(hp - value, 0);
     }

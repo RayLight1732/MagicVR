@@ -12,7 +12,7 @@ public class BearHPCallback : MonoBehaviour
         hp.OnChangeHandler += OnHPChange;
     }
 
-    void OnHPChange(object target,int value)
+    void OnHPChange(object target,double value)
     {
         if (value == 0) {
             //Destroy(gameObject);
