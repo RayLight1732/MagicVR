@@ -17,6 +17,8 @@ public class Fireball : MonoBehaviour
     public int speed;
 
     private bool fire = false;
+    private bool collided = false;
+
     void Start()
     {
         transform.forward = transform.parent.forward;
@@ -29,7 +31,14 @@ public class Fireball : MonoBehaviour
     {
         if (fire)
         {
-            rb.velocity = transform.forward * speed;
+            if (collided)
+            {
+                rb.velocity = Vector3.zero;
+            }
+            else
+            {
+                rb.velocity = transform.forward * speed;
+            }
         }
     }
 
@@ -39,7 +48,6 @@ public class Fireball : MonoBehaviour
         
     }
 
-    private bool collided = false;
 
     private void OnTriggerEnter(Collider other)
     {
