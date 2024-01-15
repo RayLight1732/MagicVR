@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Daichi/Daichi.unity
-    guid: 73a8059619fb6f846b2a1b80c9874d8e
-  - enabled: 0
     path: Assets/Daichi/TerrainTest.unity
     guid: 4c746c1b16f992e469ee5bea552ebbe2
   - enabled: 1
