@@ -17,6 +17,8 @@ public class Fireball : MonoBehaviour
     public int speed;
 
     private bool fire = false;
+    private bool collided = false;
+
     void Start()
     {
         transform.forward = transform.parent.forward;
@@ -29,7 +31,14 @@ public class Fireball : MonoBehaviour
     {
         if (fire)
         {
-            rb.velocity = transform.forward * speed;
+            if (collided)
+            {
+                rb.velocity = Vector3.zero;
+            }
+            else
+            {
+                rb.velocity = transform.forward * speed;
+            }
         }
     }
 
@@ -39,18 +48,20 @@ public class Fireball : MonoBehaviour
         
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject != holder)
+        if (other.gameObject != holder && !collided)
         {
-
+            collided = true;
             HP hp = other.gameObject.GetComponent<HP>();
             if (hp)
             {
                 hp.removeHP(5);
             }
             Instantiate(effect,transform.position,transform.rotation);
-            projectileManager.DestroyItself();
+            GetComponent<ParticleSystem>().Stop(true,ParticleSystemStopBehavior.StopEmitting);
+            projectileManager.DestroyItself(1);
         }
     }
 

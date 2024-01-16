@@ -28,8 +28,8 @@ public class SwordDamageHandler : MonoBehaviour
         HP hp = other.GetComponent<HP>();
         if (hp != null)
         {
-            Debug.Log("attack");
-            hp.removeHP((int)(speed));
+            Debug.Log(speed);
+            hp.removeHP((int)(speed*30));
         }
     }
 }
