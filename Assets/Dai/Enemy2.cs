@@ -82,7 +82,7 @@ public class Enemy2 : MonoBehaviour
         transform.Translate(speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void FindEnter(Collider other)
     {
         if (other.tag == "Player")
         {
@@ -91,7 +91,7 @@ public class Enemy2 : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void FindExit(Collider other)
     {
         if (other.tag == "Player")
         {
@@ -105,6 +105,17 @@ public class Enemy2 : MonoBehaviour
         if(hp.getHP()<=0){
             EnemyController.SetBool("Death", true);
             speed.z = 0;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            HP hp = other.gameObject.GetComponent<HP>();
+            if(hp){
+                hp.removeHP(5);
+            }
         }
     }
 }
