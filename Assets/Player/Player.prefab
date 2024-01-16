@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  gravity: 20
   isSteamVR: 0
   steamVRPlayer: {fileID: 85877682825265423, guid: 2b7c2873c29473e4da872b15b144f52e,
     type: 3}

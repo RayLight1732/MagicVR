@@ -30,7 +30,8 @@ public class PlayerMPCallback : MonoBehaviour
         {
             material.SetFloat(propertyName, Mathf.Max(0, 1 - f - 0.2f));
             material.SetFloat(propertyName2, Mathf.Max(0, 1 - f - 0.2f));
-            bluetooth.Write((Mathf.Max(0, 1 - f - 0.2f)*3.3).ToString()+"\n");
+            bluetooth.Write((1-f).ToString()+"\n");
+            Debug.Log("Write:"+(1-f));
         }
         else
         {

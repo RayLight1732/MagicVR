@@ -51,7 +51,7 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject != holder && !collided)
+        if (other.gameObject != holder && !collided && other.gameObject.GetComponent<IgnoreCollider>() == null)
         {
             collided = true;
             HP hp = other.gameObject.GetComponent<HP>();
