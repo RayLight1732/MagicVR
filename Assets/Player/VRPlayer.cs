@@ -17,6 +17,8 @@ public class VRPlayerController : MonoBehaviour
 {
 
     public float speed;
+    [SerializeField]
+    private float gravity;
 
     [SerializeField]
     private bool isSteamVR = false;
@@ -178,7 +180,7 @@ public class VRPlayerController : MonoBehaviour
         if (!controller.isGrounded)
         {
             Vector3 vector = controller.velocity;
-            vector.y -= (float) 9.8*Time.deltaTime;
+            vector.y -= (float) gravity*Time.deltaTime;
             controller.SimpleMove(vector);
         }
         controller.Move(moveDirection*Time.deltaTime);
@@ -237,6 +239,7 @@ public class VRPlayerController : MonoBehaviour
     [CustomEditor(typeof(VRPlayerController))]
     public class VRPlayerControllerEditor : Editor
     {
+        SerializedProperty gravity;
 
         SerializedProperty speed;
         SerializedProperty lefthand;
@@ -257,6 +260,8 @@ public class VRPlayerController : MonoBehaviour
 
         private void OnEnable()
         {
+            gravity = serializedObject.FindProperty(nameof(VRPlayerController.gravity));
+
             speed = serializedObject.FindProperty(nameof(VRPlayerController.speed));
 
             isSteamVR = serializedObject.FindProperty(nameof(VRPlayerController.isSteamVR));
@@ -277,6 +282,7 @@ public class VRPlayerController : MonoBehaviour
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((MonoBehaviour)target), typeof(MonoScript), false);
 
             serializedObject.Update();
+            EditorGUILayout.PropertyField(gravity);
 
             EditorGUILayout.PropertyField(speed);
 
