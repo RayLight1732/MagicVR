@@ -10,12 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2563537305617860019}
   - component: {fileID: 1826233534975769538}
-  - component: {fileID: 6238112468452692033}
-  - component: {fileID: 7936185613573747753}
   - component: {fileID: 6279275524672530863}
   - component: {fileID: 8053598766224277765}
   - component: {fileID: 917875855907555155}
   - component: {fileID: 7628395277563331196}
+  - component: {fileID: 7554440185925786825}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -56,7 +55,7 @@ MonoBehaviour:
     type: 3}
   xrInteractionToolkitPlayer: {fileID: 3673465624187433656, guid: afbabb969439d9a449c73fc5a4360ead,
     type: 3}
-  joystickXR: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
+  moveController: {fileID: -5151528669605388359, guid: 21a7c9dce59814141882c8b995c4722c,
     type: 3}
   triggerXR: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
@@ -66,62 +65,8 @@ MonoBehaviour:
   triggerSteamVR:
     actionPath: /actions/default/in/Trigger
     needsReinit: 0
-  forward: {fileID: 1631744744906303411, guid: 21a7c9dce59814141882c8b995c4722c, type: 3}
-  back: {fileID: -5428799732568822074, guid: 21a7c9dce59814141882c8b995c4722c, type: 3}
-  left: {fileID: -547058027209210164, guid: 21a7c9dce59814141882c8b995c4722c, type: 3}
-  right: {fileID: -8055937549293447593, guid: 21a7c9dce59814141882c8b995c4722c, type: 3}
   triggerFallback: {fileID: 1492448348817184202, guid: 21a7c9dce59814141882c8b995c4722c,
     type: 3}
---- !u!54 &6238112468452692033
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5311635433312444343}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!136 &7936185613573747753
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5311635433312444343}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 1.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!95 &6279275524672530863
 Animator:
   serializedVersion: 5
@@ -183,3 +128,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filter: {fileID: 0}
+--- !u!143 &7554440185925786825
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311635433312444343}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.36144
+  m_Radius: 0.1
+  m_SlopeLimit: 45
+  m_StepOffset: 0.5
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.76072, z: 0}

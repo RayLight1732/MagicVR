@@ -17,4 +17,14 @@ public class ProjectileManager : MonoBehaviour
     {
         
     }
+
+    public void DestroyItself()
+    {
+        Destroy(gameObject);
+    }
+
+    public void DestroyItself(float f)
+    {
+        Destroy(gameObject, f);
+    }
 }

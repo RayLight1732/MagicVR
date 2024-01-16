@@ -10,12 +10,14 @@ public class FireballTick : MonoBehaviour
     protected Vector3 forward;
     protected Rigidbody rb;
     private ProjectileManager projectileManager;
+    [SerializeField]
+    private GameObject parent;
     public GameObject Effect;
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        projectileManager = GetComponent<ProjectileManager>();
+        projectileManager = parent.GetComponent<ProjectileManager>();
         Destroy(this.gameObject,5f);
     }
 
@@ -34,9 +36,8 @@ public class FireballTick : MonoBehaviour
                 hp.removeHP(5);
             }
             var effect =Instantiate(Effect);
-            effect.transform.position = this.transform.position;
-            Destroy(this.gameObject);
-            //Destroy(effect);
+            effect.transform.position = transform.position;
+            projectileManager.DestroyItself();
         }
     }
 

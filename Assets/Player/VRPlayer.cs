@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 using Valve.VR;
+using Unity.XR.CoreUtils;
 #endif
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(HP))]
 [RequireComponent(typeof(MP))]
 [RequireComponent(typeof(Animator))]
@@ -20,55 +20,53 @@ public class VRPlayerController : MonoBehaviour
 
     [SerializeField]
     private bool isSteamVR = false;
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     [SerializeField]
     private GameObject steamVRPlayer;
+#endif
     [SerializeField]
     private GameObject xrInteractionToolkitPlayer;
 
     
-    //XR interacation toolkit
     [SerializeField]
-    private InputActionReference joystickXR;
+    private InputActionReference moveController;
+    //XR interacation toolkit
     [SerializeField]
     private InputActionReference triggerXR;
     //SteamVR
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     [SerializeField]
     private SteamVR_Action_Vector2 joystickSteamVR;
     [SerializeField]
     private SteamVR_Action_Boolean triggerSteamVR;
 #endif
-    //SteamVR fallback
-    [SerializeField]
-    private InputActionReference forward;
-    [SerializeField]
-    private InputActionReference back;
-    [SerializeField]
-    private InputActionReference left;
-    [SerializeField]
-    private InputActionReference right;
+
     [SerializeField]
     private InputActionReference triggerFallback;
 
-    private Rigidbody componentRigidbody;
+    private CharacterController controller;
     private Animator animator;
     private MP mp;
+    private ObjectGetter objectGetter;
 
     private void Awake()
     {
-        componentRigidbody = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         mp = GetComponent<MP>();
-        GameObject child;
+        GameObject child = null;
         if (isSteamVR)
         {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             child = Instantiate(steamVRPlayer, transform, false);
+#endif
         }
         else
         {
             child = Instantiate(xrInteractionToolkitPlayer, transform, false);
         }
-        GetComponent<PlayerMPCallback>().filter = child.GetComponent<FIlterGetter>().GetFilter();
+        objectGetter = GetComponentInChildren<ObjectGetter>();
+        GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
     }
 
 
@@ -77,26 +75,25 @@ public class VRPlayerController : MonoBehaviour
     {
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
 
             }
             else
             {
-                forward.action.Enable();
-                back.action.Enable();
-                left.action.Enable();
-                right.action.Enable();
-                triggerFallback.action.Enable();
+                moveController.action.Enable();
+                moveController.action.performed += OnJoystickPerformed;
+                moveController.action.canceled += OnJoystickCanceled;
+                triggerXR.action.Enable();
             }
 #endif
         }
         else
         {
-            joystickXR.action.Enable();
-            joystickXR.action.performed += OnJoystickPerformed;
-            joystickXR.action.canceled += OnJoystickCanceled;
+            moveController.action.Enable();
+            moveController.action.performed += OnJoystickPerformed;
+            moveController.action.canceled += OnJoystickCanceled;
             triggerXR.action.Enable();
         }
     }
@@ -107,110 +104,105 @@ public class VRPlayerController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        ProcessMove();
-    }
 
     private void Update()
     {
         ProcessShoot();
+        ProcessMove();
+
+        Vector3 localPosition = objectGetter.GetHead().transform.localPosition;
+        Vector3 worldPosition = objectGetter.GetHead().transform.position;
+        worldPosition.y = transform.position.y;
+        transform.position = worldPosition;
+        objectGetter.GetCameraOffset().transform.localPosition = new Vector3(-localPosition.x, objectGetter.GetCameraOffset().transform.localPosition.y, -localPosition.z);
+
     }
 
     private void OnDisable()
     {
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
 
             }
             else
             {
-                forward.action.Disable();
-                back.action.Disable();
-                left.action.Disable();
-                right.action.Disable();
+                moveController.action.Disable();
+                moveController.action.performed -= OnJoystickPerformed;
+                moveController.action.canceled -= OnJoystickCanceled;
                 triggerFallback.action.Disable();
             }
 #endif
         }
         else
         {
-            joystickXR.action.Disable();
-            joystickXR.action.performed -= OnJoystickPerformed;
-            joystickXR.action.canceled -= OnJoystickCanceled;
+            moveController.action.Disable();
+            moveController.action.performed -= OnJoystickPerformed;
+            moveController.action.canceled -= OnJoystickCanceled;
             triggerXR.action.Disable();
         }
     }
 
     private void ProcessMove() 
     {
+       
         Vector3 moveDirection = Vector3.zero;
         //Quaternion forwardQuaternion = Quaternion.Euler(Vector3.Scale(transform.forward, new Vector3(1, 0, 1)));
         Vector3 forwardVec = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector2 inputVec = Vector2.zero;
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
                 inputVec = joystickSteamVR.GetLastAxis(SteamVR_Input_Sources.LeftHand);
             }
             else
             {
-                if (forward.action.IsPressed())
-                {
-                    inputVec.y = 1;
-                }
-                if (back.action.IsPressed())
-                {
-                    inputVec.y = -1;
-                }
-                if (right.action.IsPressed())
-                {
-                    inputVec.x = 1;
-                }
-                if (left.action.IsPressed())
-                {
-                    inputVec.x = -1;
-                }
+                inputVec = moveControllerInput;
             }
 #endif
         } else
         {
-            inputVec = joystickXRInput;
+            inputVec = moveControllerInput;
         }
         if (!inputVec.Equals(Vector2.zero))
         {
             Quaternion inputQuaternion = Quaternion.LookRotation(new Vector3(inputVec.x, 0, inputVec.y));
             moveDirection = inputQuaternion * forwardVec * speed;
         }
-        moveDirection.y = componentRigidbody.velocity.y;
-        componentRigidbody.velocity = moveDirection;
+
+
+        if (!controller.isGrounded)
+        {
+            Vector3 vector = controller.velocity;
+            vector.y -= (float) 9.8*Time.deltaTime;
+            controller.SimpleMove(vector);
+        }
+        controller.Move(moveDirection*Time.deltaTime);
+        
         
     }
 
-    private Vector2 joystickXRInput = Vector2.zero;
+    private Vector2 moveControllerInput = Vector2.zero;
 
     private void OnJoystickPerformed(InputAction.CallbackContext context)
     {
-        joystickXRInput = context.ReadValue<Vector2>();
-        Debug.Log(joystickXRInput);
+        moveControllerInput = context.ReadValue<Vector2>();
     }
 
     private void OnJoystickCanceled(InputAction.CallbackContext context)
     {
-        joystickXRInput = Vector2.zero;
-        Debug.Log(joystickXRInput);
+        moveControllerInput = Vector2.zero;
     }
     private void ProcessShoot()
     {
         bool shoot = false;
         if (isSteamVR)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             if (SteamVR.instance != null)
             {
                 shoot = triggerSteamVR.GetStateDown(SteamVR_Input_Sources.LeftHand);
@@ -226,24 +218,34 @@ public class VRPlayerController : MonoBehaviour
             shoot = triggerXR.action.WasPressedThisFrame();
         }
 
-        if (shoot && mp.GetMP() >= 1)
+        if (shoot && mp.GetMP() >= 1 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             mp.RemoveMP(1);
             animator.SetTrigger("Attack");
         }
     }
+
+
+    public Transform GetShootTransform()
+    {
+        Transform t = objectGetter.GetLeftController().transform;
+        t.position += t.forward*0.1f;
+        return t;
+    }
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(VRPlayerController))]
     public class VRPlayerControllerEditor : Editor
     {
 
         SerializedProperty speed;
+        SerializedProperty lefthand;
 
         SerializedProperty isSteamVR;
 
         //XR interacation toolkit
         SerializedProperty xrInteractionToolkitPlayer;
-        SerializedProperty joystickXR;
+        SerializedProperty moveController;
         SerializedProperty triggerXR;
         //SteamVR
         SerializedProperty steamVRPlayer;
@@ -251,10 +253,6 @@ public class VRPlayerController : MonoBehaviour
         SerializedProperty triggerSteam;
         //SteamVR fallback
         SerializedProperty fallbackTrigger;
-        SerializedProperty forward;
-        SerializedProperty back;
-        SerializedProperty left;
-        SerializedProperty right;
 
 
         private void OnEnable()
@@ -262,18 +260,14 @@ public class VRPlayerController : MonoBehaviour
             speed = serializedObject.FindProperty(nameof(VRPlayerController.speed));
 
             isSteamVR = serializedObject.FindProperty(nameof(VRPlayerController.isSteamVR));
-    
+
             xrInteractionToolkitPlayer = serializedObject.FindProperty(nameof(VRPlayerController.xrInteractionToolkitPlayer));
-            joystickXR = serializedObject.FindProperty(nameof(VRPlayerController.joystickXR));
+            moveController = serializedObject.FindProperty(nameof(VRPlayerController.moveController));
             triggerXR = serializedObject.FindProperty(nameof(VRPlayerController.triggerXR));
 
             steamVRPlayer = serializedObject.FindProperty(nameof(VRPlayerController.steamVRPlayer));
             joystickSteamVR = serializedObject.FindProperty(nameof(VRPlayerController.joystickSteamVR));
             triggerSteam = serializedObject.FindProperty(nameof (VRPlayerController.triggerSteamVR));
-            forward = serializedObject.FindProperty(nameof(VRPlayerController.forward));
-            back = serializedObject.FindProperty(nameof(VRPlayerController.back));
-            left = serializedObject.FindProperty(nameof(VRPlayerController.left));
-            right = serializedObject.FindProperty(nameof(VRPlayerController.right));
             fallbackTrigger = serializedObject.FindProperty (nameof(VRPlayerController.triggerFallback));
         }
 
@@ -294,15 +288,13 @@ public class VRPlayerController : MonoBehaviour
                     EditorGUILayout.PropertyField(steamVRPlayer);
                     EditorGUILayout.PropertyField(joystickSteamVR);
                     EditorGUILayout.PropertyField(triggerSteam);
+                    
 
                     EditorGUI.indentLevel++;
                     if (fallbackTrigger.isExpanded = EditorGUILayout.Foldout(fallbackTrigger.isExpanded, "Fallback"))
                     {
                         EditorGUILayout.PropertyField(fallbackTrigger);
-                        EditorGUILayout.PropertyField(forward);
-                        EditorGUILayout.PropertyField(back);
-                        EditorGUILayout.PropertyField(left);
-                        EditorGUILayout.PropertyField(right);
+                        EditorGUILayout.PropertyField(moveController);
                     }
                 }
             }
@@ -311,7 +303,7 @@ public class VRPlayerController : MonoBehaviour
                 if (xrInteractionToolkitPlayer.isExpanded = EditorGUILayout.Foldout(xrInteractionToolkitPlayer.isExpanded, "XR Interaction Toolkit"))
                 {
                     EditorGUILayout.PropertyField(xrInteractionToolkitPlayer);
-                    EditorGUILayout.PropertyField(joystickXR);
+                    EditorGUILayout.PropertyField(moveController);
                     EditorGUILayout.PropertyField(triggerXR);
                 }
 
