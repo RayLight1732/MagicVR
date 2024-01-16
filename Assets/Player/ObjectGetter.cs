@@ -7,7 +7,11 @@ public class ObjectGetter : MonoBehaviour
     [SerializeField]
     private GameObject filter;
     [SerializeField]
-    private GameObject lefthand;
+    private GameObject leftController;
+    [SerializeField]
+    private GameObject head;
+    [SerializeField]
+    private GameObject cameraOffset;
     void Start()
     {
         
@@ -21,5 +25,12 @@ public class ObjectGetter : MonoBehaviour
 
     public GameObject GetFilter() { return filter; }
 
-    public GameObject GetLeftHand() { return lefthand; }
+    public GameObject GetLeftController() { return leftController; }
+
+    public GameObject GetHead()
+    {
+        return head;
+    }
+
+    public GameObject GetCameraOffset() {  return cameraOffset; }
 }
