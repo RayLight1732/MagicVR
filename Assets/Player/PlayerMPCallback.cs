@@ -22,9 +22,9 @@ public class PlayerMPCallback : MonoBehaviour
         bluetooth.Write("0.1\n");
     }
 
-    void OnMPChange(object target,int value)
+    void OnMPChange(object target,double value)
     {
-        float f = (float) value/((MP)target).GetMaxMP();
+        float f = (float) (value/((MP)target).GetMaxMP());
         var material = filter.GetComponent<Renderer>().material;
         if (material.HasProperty(propertyName))
         {

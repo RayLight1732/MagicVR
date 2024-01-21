@@ -6,10 +6,10 @@ using UnityEngine;
 public class MP : MonoBehaviour
 {
 
-    public int maxMP;
+    public double maxMP;
 
-    private int _mp;
-    private int mp
+    private double _mp;
+    private double mp
     {
         set {
             _mp = value;
@@ -21,7 +21,7 @@ public class MP : MonoBehaviour
         get => _mp;
     }
 
-    public event EventHandler<int> OnChangeHandler;
+    public event EventHandler<double> OnChangeHandler;
 
     private void OnEnable()
     {
@@ -39,7 +39,7 @@ public class MP : MonoBehaviour
 
     }
 
-    public void SetMP(int mp)
+    public void SetMP(double mp)
     {
         if (mp <= maxMP)
         {
@@ -47,24 +47,24 @@ public class MP : MonoBehaviour
         }
     }
 
-    public int GetMP()
+    public double GetMP()
     {
         return mp;
     }
 
-    public void AddMP(int value)
+    public void AddMP(double value)
     {
         mp = Math.Min(mp + value, maxMP);
     }
 
-    public void RemoveMP(int value)
+    public void RemoveMP(double value)
     {
         mp = Math.Max(mp - value, 0);
     }
 
-    public int GetMaxMP() { return maxMP; }
+    public double GetMaxMP() { return maxMP; }
     
-    public void SetMaxMP(int maxMP)
+    public void SetMaxMP(double maxMP)
     {
         this.maxMP = maxMP;
         if (mp > maxMP) { mp = maxMP; }
