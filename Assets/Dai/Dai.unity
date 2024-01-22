@@ -10463,6 +10463,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7363623855845446322, guid: fde1dbd8696f93148b4ea48bc1bbb288,
+        type: 3}
+      propertyPath: AttackCooldown
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8242393958395155967, guid: fde1dbd8696f93148b4ea48bc1bbb288,
         type: 3}
       propertyPath: HPGage
@@ -10561,7 +10566,12 @@ PrefabInstance:
     - target: {fileID: 2734216130205708740, guid: 48e35441f9aa3484898498dadfeecb24,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8525315501853038887, guid: 48e35441f9aa3484898498dadfeecb24,
+        type: 3}
+      propertyPath: AttackCooldown
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8525315501853038887, guid: 48e35441f9aa3484898498dadfeecb24,
         type: 3}

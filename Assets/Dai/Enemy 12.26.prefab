@@ -812,6 +812,7 @@ MonoBehaviour:
   EnemySpeed: 3
   AttackDistance: 5
   ChangeTime: 1
+  AttackCooldown: 0
   EnemyController: {fileID: 4387055578920363591}
 --- !u!114 &1981076705541394759
 MonoBehaviour:
