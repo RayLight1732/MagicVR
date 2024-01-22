@@ -12,6 +12,8 @@ public class ObjectGetter : MonoBehaviour
     private GameObject head;
     [SerializeField]
     private GameObject cameraOffset;
+    [SerializeField]
+    private GameObject sword;
     void Start()
     {
         
@@ -33,4 +35,6 @@ public class ObjectGetter : MonoBehaviour
     }
 
     public GameObject GetCameraOffset() {  return cameraOffset; }
+
+    public GameObject GetSword() {  return sword; }
 }

@@ -53,7 +53,9 @@ public class VRPlayerController : MonoBehaviour
     private CharacterController controller;
     private Animator animator;
     private MP mp;
-    private ObjectGetter objectGetter;
+    public ObjectGetter objectGetter { get; private set; }
+
+
     private ChargeManager chargeManager;
 
     private void Awake()
@@ -73,6 +75,7 @@ public class VRPlayerController : MonoBehaviour
             child = Instantiate(xrInteractionToolkitPlayer, transform, false);
         }
         objectGetter = GetComponentInChildren<ObjectGetter>();
+        Debug.Log("in controller"+(objectGetter==null));
         GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
         chargeManager = GetComponent<ChargeManager>();
     }
@@ -245,12 +248,7 @@ public class VRPlayerController : MonoBehaviour
     }
 
 
-    public Transform GetShootTransform()
-    {
-        Transform t = objectGetter.GetLeftController().transform;
-        t.position += t.forward*0.1f;
-        return t;
-    }
+    
 
 
     private bool chargeButtonPressed = false;

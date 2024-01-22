@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ShootFireball : StateMachineBehaviour
+public class ShootProjectile : StateMachineBehaviour
 {
 
-    public GameObject fireball;
+    [SerializeField]
+    private GameObject fireball;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //GameObject obj = (GameObject)Resources.Load("Projectile");
-
-        fireball.GetComponent<ProjectileManager>().holder = animator.gameObject;
         Quaternion rotation = fireball.transform.rotation;
-        Transform shootTransform = animator.gameObject.GetComponent<VRPlayerController>().GetShootTransform();
+
+        ShooterManager shooterManager = animator.gameObject.GetComponent<ShooterManager>();
+
+        Transform shootTransform = shooterManager.GetShootTransform();
         rotation = shootTransform.rotation * rotation;
         GameObject bullet = Instantiate(fireball, shootTransform.position, rotation);
-        
-        bullet.transform.forward =shootTransform.forward;
+
+
+        ProjectileManager projectileManager = bullet.GetComponent<ProjectileManager>();
+        for (int i = 0; i < shooterManager.ignores.Count; i++)
+        {
+            projectileManager.ignores.Add(shooterManager.ignores[i]);
+        }
+
+        bullet.transform.forward = shootTransform.forward;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
