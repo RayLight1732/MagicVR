@@ -85,13 +85,22 @@
             ]
         },
         {
-            "name": "Shoot",
+            "name": "Action",
             "id": "a5bd6e29-73f1-45b5-acae-f3d18e3cec91",
             "actions": [
                 {
                     "name": "Shoot",
                     "type": "Button",
                     "id": "00063780-6f28-46d5-9db2-f5ed1d296962",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Charge",
+                    "type": "Button",
+                    "id": "850d9b9e-16e1-4b15-a248-756c60c80733",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -107,6 +116,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c22029c-2732-4906-a2a5-59a5d656c13c",
+                    "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

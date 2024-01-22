@@ -13,6 +13,7 @@ using UnityEditor;
 [RequireComponent(typeof(MP))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PlayerMPCallback))]
+[RequireComponent(typeof(ChargeManager))]
 public class VRPlayerController : MonoBehaviour
 {
 
@@ -35,6 +36,9 @@ public class VRPlayerController : MonoBehaviour
     //XR interacation toolkit
     [SerializeField]
     private InputActionReference triggerXR;
+    [SerializeField]
+    private InputActionReference chargeXR;
+
     //SteamVR
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
     [SerializeField]
@@ -50,6 +54,7 @@ public class VRPlayerController : MonoBehaviour
     private Animator animator;
     private MP mp;
     private ObjectGetter objectGetter;
+    private ChargeManager chargeManager;
 
     private void Awake()
     {
@@ -69,6 +74,7 @@ public class VRPlayerController : MonoBehaviour
         }
         objectGetter = GetComponentInChildren<ObjectGetter>();
         GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
+        chargeManager = GetComponent<ChargeManager>();
     }
 
 
@@ -97,6 +103,10 @@ public class VRPlayerController : MonoBehaviour
             moveController.action.performed += OnJoystickPerformed;
             moveController.action.canceled += OnJoystickCanceled;
             triggerXR.action.Enable();
+
+            chargeXR.action.Enable();
+            chargeXR.action.performed += OnChargeButtonPerformed;
+            chargeXR.action.canceled += OnChargeButtonCanceled;
         }
     }
 
@@ -111,6 +121,7 @@ public class VRPlayerController : MonoBehaviour
     {
         ProcessShoot();
         ProcessMove();
+        ProcessCharge();
 
         Vector3 localPosition = objectGetter.GetHead().transform.localPosition;
         Vector3 worldPosition = objectGetter.GetHead().transform.position;
@@ -144,6 +155,10 @@ public class VRPlayerController : MonoBehaviour
             moveController.action.performed -= OnJoystickPerformed;
             moveController.action.canceled -= OnJoystickCanceled;
             triggerXR.action.Disable();
+
+            chargeXR.action.Disable();
+            chargeXR.action.performed -= OnChargeButtonPerformed;
+            chargeXR.action.canceled -= OnChargeButtonPerformed;
         }
     }
 
@@ -199,6 +214,8 @@ public class VRPlayerController : MonoBehaviour
     {
         moveControllerInput = Vector2.zero;
     }
+
+
     private void ProcessShoot()
     {
         bool shoot = false;
@@ -235,6 +252,41 @@ public class VRPlayerController : MonoBehaviour
         return t;
     }
 
+
+    private bool chargeButtonPressed = false;
+    private Vector3 startPosition = Vector3.zero;
+
+    private void OnChargeButtonPerformed(InputAction.CallbackContext context)
+    {
+        chargeButtonPressed = true;
+        startPosition = gameObject.transform.position;
+    }
+
+    private void OnChargeButtonCanceled(InputAction.CallbackContext context)
+    {
+        chargeButtonPressed = false;
+    }
+
+    private void ProcessCharge()
+    {
+        if (chargeButtonPressed && !chargeManager.IsCharging())
+        {
+            chargeManager.StartCharge();
+        }
+
+        if (Vector3.Distance(startPosition,gameObject.transform.position) > 1)
+        { 
+            chargeManager.FailToCharge();
+        }
+
+        if (!chargeButtonPressed && chargeManager.IsCharging())
+        {
+            chargeManager.StopCharge();
+        }
+
+       
+    }
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(VRPlayerController))]
     public class VRPlayerControllerEditor : Editor
@@ -242,7 +294,6 @@ public class VRPlayerController : MonoBehaviour
         SerializedProperty gravity;
 
         SerializedProperty speed;
-        SerializedProperty lefthand;
 
         SerializedProperty isSteamVR;
 
@@ -250,6 +301,7 @@ public class VRPlayerController : MonoBehaviour
         SerializedProperty xrInteractionToolkitPlayer;
         SerializedProperty moveController;
         SerializedProperty triggerXR;
+        SerializedProperty chargeXR;
         //SteamVR
         SerializedProperty steamVRPlayer;
         SerializedProperty joystickSteamVR;
@@ -269,6 +321,7 @@ public class VRPlayerController : MonoBehaviour
             xrInteractionToolkitPlayer = serializedObject.FindProperty(nameof(VRPlayerController.xrInteractionToolkitPlayer));
             moveController = serializedObject.FindProperty(nameof(VRPlayerController.moveController));
             triggerXR = serializedObject.FindProperty(nameof(VRPlayerController.triggerXR));
+            chargeXR = serializedObject.FindProperty(nameof(VRPlayerController.chargeXR));
 
             steamVRPlayer = serializedObject.FindProperty(nameof(VRPlayerController.steamVRPlayer));
             joystickSteamVR = serializedObject.FindProperty(nameof(VRPlayerController.joystickSteamVR));
@@ -311,6 +364,7 @@ public class VRPlayerController : MonoBehaviour
                     EditorGUILayout.PropertyField(xrInteractionToolkitPlayer);
                     EditorGUILayout.PropertyField(moveController);
                     EditorGUILayout.PropertyField(triggerXR);
+                    EditorGUILayout.PropertyField(chargeXR);
                 }
 
             }
