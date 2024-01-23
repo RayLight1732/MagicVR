@@ -16,6 +16,7 @@ public class BearHPCallback : MonoBehaviour
     {
         if (value == 0) {
             //Destroy(gameObject);
+            Debug.Log(value);
         }
     }
     void Start()

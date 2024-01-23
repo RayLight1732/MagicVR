@@ -8,8 +8,10 @@ public class Enemy2 : MonoBehaviour
     public float EnemySpeed;
     public float AttackDistance; // プレイヤーとの攻撃距離の閾値
     public float ChangeTime;
+    public float AttackCooldown;
 
     float Timer;
+    float AttackTimer;
     public Animator EnemyController;
     private GameObject Target;
     private bool isInAttackMode; // 攻撃モードかどうかを示すフラグ
@@ -34,14 +36,24 @@ public class Enemy2 : MonoBehaviour
             rot.z = 0;
             transform.eulerAngles = rot;
 
+            AttackTimer -= Time.deltaTime;
+
             // プレイヤーとの距離を計算
             float distanceToPlayer = Vector3.Distance(transform.position, Target.transform.position);
 
             // プレイヤーが攻撃範囲内にいるか判断
             if (distanceToPlayer <= AttackDistance)
             {
-                EnemyController.SetBool("Attack",true);
-                // ここに攻撃のロジックを追加
+                if(AttackTimer<=0)
+                {
+                    EnemyController.SetBool("Attack",true);
+                    // ここに攻撃のロジックを追加
+                    AttackTimer = AttackCooldown;
+                }
+                /*else
+                {
+                    
+                }*/
 
             }
             else
