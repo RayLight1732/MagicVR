@@ -50,12 +50,14 @@ public class Fireball : MonoBehaviour
     private bool checkCollision = true;
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         if (!ignores.Contains(other.gameObject) &&checkCollision && other.gameObject.GetComponent<IgnoreCollider>() == null)
         {
             collided = true;
             HP hp = other.gameObject.GetComponent<HP>();
             if (hp)
             {
+                Debug.Log("succes");
                 hp.removeHP(5);
             }
             Instantiate(effect,transform.position,transform.rotation);
@@ -69,4 +71,5 @@ public class Fireball : MonoBehaviour
         fire = true;
         projectileManager.DestroyItself(5);
     }
+
 }

@@ -120,14 +120,4 @@ public class Enemy2 : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            HP hp = other.gameObject.GetComponent<HP>();
-            if(hp){
-                hp.removeHP(5);
-            }
-        }
-    }
 }

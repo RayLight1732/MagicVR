@@ -8,7 +8,6 @@ public class PlayerHPCallback : MonoBehaviour
     public GameObject filter;
     private GameObject gameoverUI;
     private VRPlayerController vRPlayerController;
-    private ObjectGetter objectGetter;
 
     private void Awake()
     {
@@ -18,15 +17,18 @@ public class PlayerHPCallback : MonoBehaviour
 
     void OnHPChange(object sender, double hpValue)
     {
+        Debug.Log(hpValue);
         HP hpComponent = (HP)sender;
         float hpPercent = (float)(hpValue / hpComponent.maxHP);
         var material = filter.GetComponent<Renderer>().material;
+        if(hpValue<=0){
+                Debug.Log("Gameover");
+                Gameover();
+            }
         if (material.HasProperty(propertyName))
         {
             material.SetFloat(propertyName, hpPercent);
-            if(hpValue<=0){
-                Gameover();
-            }
+            
         }
         else
         {
@@ -36,7 +38,8 @@ public class PlayerHPCallback : MonoBehaviour
 
     private void Gameover(){
         vRPlayerController =  this.GetComponent<VRPlayerController>();
-        
+        gameoverUI = vRPlayerController.objectGetter.GetGameoverUI();
+        gameoverUI.SetActive(true);
         Time.timeScale = 0;
     }
 }

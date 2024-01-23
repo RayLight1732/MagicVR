@@ -25,11 +25,14 @@ public class SwordDamageHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag != "Player") {
         HP hp = other.GetComponent<HP>();
         if (hp != null)
         {
-            Debug.Log(speed);
-            hp.removeHP((int)(speed*30));
+            //Debug.Log(speed);
+            Debug.Log(other.gameObject.name);
+            hp.removeHP((speed*30));
+        }
         }
     }
 }
