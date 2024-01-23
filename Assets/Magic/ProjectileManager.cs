@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileManager : MonoBehaviour
 {
 
-    public GameObject holder;
+    public List<GameObject> ignores { get; private set; } = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {

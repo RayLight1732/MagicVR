@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 917875855907555155}
   - component: {fileID: 7628395277563331196}
   - component: {fileID: 7554440185925786825}
+  - component: {fileID: 930784658374186665}
+  - component: {fileID: 2252308154393107875}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -59,6 +61,8 @@ MonoBehaviour:
   moveController: {fileID: -5151528669605388359, guid: 21a7c9dce59814141882c8b995c4722c,
     type: 3}
   triggerXR: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  chargeXR: {fileID: 7783250103890017652, guid: 21a7c9dce59814141882c8b995c4722c,
     type: 3}
   joystickSteamVR:
     actionPath: /actions/default/in/Move
@@ -155,3 +159,31 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.76072, z: 0}
+--- !u!114 &930784658374186665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311635433312444343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7b499538ff7c3458f3979d265fc8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magicCircle: {fileID: 22674442874623862, guid: a15a3d1bb729ffb4194fb5685eebbf02,
+    type: 3}
+  chargeDelay: 1
+  mpPerSecond: 1
+--- !u!114 &2252308154393107875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5311635433312444343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51fb455f8fae01b47889383439ae323c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

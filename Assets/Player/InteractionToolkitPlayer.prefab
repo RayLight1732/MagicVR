@@ -552,6 +552,7 @@ MonoBehaviour:
   head: {fileID: 1999378581393002639}
   cameraOffset: {fileID: 8760114216807810379}
   gameoverUI: {fileID: 2532849842473805089}
+  sword: {fileID: 5916260286068232347}
 --- !u!1 &4481300593074419436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2315,6 +2316,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03d66a48a4124e640976e9fad057a012, type: 3}
+--- !u!1 &5916260286068232347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3343425754279005111, guid: 03d66a48a4124e640976e9fad057a012,
+    type: 3}
+  m_PrefabInstance: {fileID: 8970320947775560492}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6365925552625631627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2604405426669558439, guid: 03d66a48a4124e640976e9fad057a012,
