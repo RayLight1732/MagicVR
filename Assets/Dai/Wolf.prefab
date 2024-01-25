@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 8389960163537709932}
   m_Layer: 0
   m_Name: Wolf
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -629,6 +629,7 @@ MonoBehaviour:
   EnemySpeed: 5
   AttackDistance: 3
   ChangeTime: 1
+  AttackCooldown: 0
   EnemyController: {fileID: 762365483615130794}
 --- !u!114 &8242393958395155967
 MonoBehaviour:
