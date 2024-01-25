@@ -5,11 +5,21 @@ using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
-
-    public GameObject enemy;
-    public GameObject quad;
+    [SerializeField]
+    private GameObject enemy1;
+    [SerializeField]
+    private GameObject enemy2;
+    [SerializeField]
+    private GameObject boss;
+    [SerializeField]
+    private GameObject field1;
+    [SerializeField]
+    private GameObject field2;
+    [SerializeField]
+    private GameObject parent;
     private bool spawnflag;
-    private Vector3 vector;
+    private Vector3 vector1;
+    private Vector3 vector2;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,15 +32,32 @@ public class Enemy : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other){
+    private void OnTriggerEnter(Collider other){
         Debug.Log(other.gameObject.name);
-        if(!spawnflag && other.gameObject.name == "Main Camera"){
+        if(!spawnflag && other.gameObject.name == "Player"){
             Debug.Log("succes");
-            vector = quad.transform.position;
-            vector.y += 1;
-            transform.LookAt(other.transform);
-            Instantiate(enemy,vector,Quaternion.identity);
-            spawnflag = true;
+            vector1 = field1.transform.position;
+            vector1.y += 1;
+            vector2 = field2.transform.position;
+            vector2.y += 1;
+            if(parent.name == "Stage1"){
+                Instantiate(enemy1,vector1,Quaternion.identity);
+                spawnflag = true;
+            }
+            else if(parent.name == "Stage2"){
+                Instantiate(enemy2,vector1,Quaternion.identity);
+                Instantiate(enemy2,vector2,Quaternion.identity);
+                spawnflag = true;
+            }
+            else if(parent.name == "Stage3"){
+                Instantiate(enemy1,vector1,Quaternion.identity);
+                Instantiate(enemy2,vector2,Quaternion.identity);
+                spawnflag = true;
+            }
+            else if(parent.name == "Boss"){
+                Instantiate(boss,vector1,Quaternion.identity);
+                spawnflag = true;
+            }
         }
     }
 }
