@@ -1191,7 +1191,7 @@ GameObject:
   - component: {fileID: -1649676346337820139}
   m_Layer: 2
   m_Name: XR Origin Copied
-  m_TagString: Untagged
+  m_TagString: TestObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1288,6 +1288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   filter: {fileID: 1995096303257594236}
   leftController: {fileID: 202364687}
+  head: {fileID: 0}
+  cameraOffset: {fileID: 0}
+  sword: {fileID: 0}
 --- !u!1 &1787516059220952802
 GameObject:
   m_ObjectHideFlags: 0

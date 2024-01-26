@@ -20,6 +20,7 @@ public class HP : MonoBehaviour
                 float percent = (float)_hp / maxHP;
                 HPGage.fillAmount = percent;
             }
+            Debug.Log("set");
         }
         get => _hp;
     }
