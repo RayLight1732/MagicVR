@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 2777185297413897529}
   - component: {fileID: 1897940797500855839}
   - component: {fileID: 3269003890499003761}
-  - component: {fileID: 1981150644437276553}
   - component: {fileID: 5220120785930191693}
   m_Layer: 0
   m_Name: Main Camera
@@ -326,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackingType: 2
+  m_TrackingType: 0
   m_UpdateType: 0
   m_IgnoreTrackingState: 0
   m_PositionInput:
@@ -359,7 +358,7 @@ MonoBehaviour:
     m_Reference: {fileID: 7862207684358717888, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   m_RotationInput:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Rotation Input
       m_Type: 0
@@ -369,7 +368,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -530380113134220495, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
   m_TrackingStateInput:
     m_UseReference: 0
     m_Action:
@@ -453,33 +453,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &1981150644437276553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1999378581393002639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6f27ad009a89645928720505f32451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Action
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: ea40c2bb-5ae6-43ef-a601-456f68d0badf
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -530380113134220495, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
-  delay: 0
-  rotationLimit: 0
 --- !u!135 &5220120785930191693
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2098,7 +2071,7 @@ GameObject:
   - component: {fileID: 1045162699919721696}
   m_Layer: 0
   m_Name: Camera Offset
-  m_TagString: Untagged
+  m_TagString: TestObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2308,6 +2281,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118244004775452855, guid: 8dbf788120ae5ea4b8c5dcfd1328d9d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5125100863983210890, guid: 8dbf788120ae5ea4b8c5dcfd1328d9d5,
         type: 3}

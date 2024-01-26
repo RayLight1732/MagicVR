@@ -20,12 +20,17 @@ public class Fireball : MonoBehaviour
     private bool fire = false;
     private bool collided = false;
 
-    private void Awake()
-    {
-        transform.forward = transform.parent.forward;
+    private void Awake() { 
+
         projectileManager = parent.GetComponent<ProjectileManager>();
+        if (projectileManager.forwardGetter == null) {
+            transform.forward = transform.parent.forward;
+        } else {
+            transform.forward = projectileManager.forwardGetter.Invoke();
+        }
         ignores = projectileManager.ignores;
         rb = GetComponent<Rigidbody>();
+        transform.parent = null;
     }
 
 
@@ -42,7 +47,7 @@ public class Fireball : MonoBehaviour
             }
             else
             {
-                rb.velocity = transform.forward * speed;
+                    rb.velocity = transform.forward * speed;
             }
         }
     }
@@ -62,7 +67,11 @@ public class Fireball : MonoBehaviour
             }
             Instantiate(effect,transform.position,transform.rotation);
             GetComponent<ParticleSystem>().Stop(true,ParticleSystemStopBehavior.StopEmitting);
-            projectileManager.DestroyItself(1);
+            if (!projectileManager.IsDestroyed()) {
+                projectileManager.DestroyItself(1);
+            }
+
+            Destroy(gameObject, 1);
         }
     }
 

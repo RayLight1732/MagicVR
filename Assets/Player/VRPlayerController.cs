@@ -75,7 +75,6 @@ public class VRPlayerController : MonoBehaviour
             child = Instantiate(xrInteractionToolkitPlayer, transform, false);
         }
         objectGetter = GetComponentInChildren<ObjectGetter>();
-        Debug.Log("in controller"+(objectGetter==null));
         GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
         GetComponent<PlayerHPCallback>().filter = objectGetter.GetFilter();
         chargeManager = GetComponent<ChargeManager>();
@@ -128,12 +127,13 @@ public class VRPlayerController : MonoBehaviour
         ProcessMove();
         ProcessCharge();
 
+        
         Vector3 localPosition = objectGetter.GetHead().transform.localPosition;
         Vector3 worldPosition = objectGetter.GetHead().transform.position;
         worldPosition.y = transform.position.y;
         transform.position = worldPosition;
         objectGetter.GetCameraOffset().transform.localPosition = new Vector3(-localPosition.x, objectGetter.GetCameraOffset().transform.localPosition.y, -localPosition.z);
-
+        
     }
 
     private void OnDisable()
@@ -196,13 +196,13 @@ public class VRPlayerController : MonoBehaviour
             moveDirection = inputQuaternion * forwardVec * speed;
         }
 
-
+        /*
         if (!controller.isGrounded)
         {
             Vector3 vector = controller.velocity;
             vector.y -= (float) gravity*Time.deltaTime;
             controller.SimpleMove(vector);
-        }
+        }*/
         controller.Move(moveDirection*Time.deltaTime);
         
         
