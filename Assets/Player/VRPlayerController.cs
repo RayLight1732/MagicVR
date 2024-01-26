@@ -76,7 +76,9 @@ public class VRPlayerController : MonoBehaviour
         }
         objectGetter = GetComponentInChildren<ObjectGetter>();
         GetComponent<PlayerMPCallback>().filter = objectGetter.GetFilter();
+        GetComponent<PlayerHPCallback>().filter = objectGetter.GetFilter();
         chargeManager = GetComponent<ChargeManager>();
+        
     }
 
 

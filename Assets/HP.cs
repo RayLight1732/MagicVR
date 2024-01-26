@@ -14,9 +14,12 @@ public class HP : MonoBehaviour
     {
         set {
             _hp = value;
-            if (OnChangeHandler != null && HPGage != null)
+            if (OnChangeHandler != null)
             {
                 OnChangeHandler(this, value);
+            }
+            if(HPGage != null)
+            {
                 float percent = (float)_hp / maxHP;
                 HPGage.fillAmount = percent;
             }
@@ -61,5 +64,9 @@ public class HP : MonoBehaviour
     public void removeHP(double value)
     {
         hp = Math.Max(hp - value, 0);
+    }
+    public void SetMaxHP(double maxHP){
+        this.maxHP = (int)maxHP;
+        if(hp > maxHP) {hp = maxHP;}
     }
 }
