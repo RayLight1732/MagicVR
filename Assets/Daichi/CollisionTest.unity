@@ -2099,20 +2099,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2563537305617860019, guid: 626858739e09d2c48849ea97cd9cd6c5,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5311635433312444343, guid: 626858739e09d2c48849ea97cd9cd6c5,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7554440185925786825, guid: 626858739e09d2c48849ea97cd9cd6c5,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8053598766224277765, guid: 626858739e09d2c48849ea97cd9cd6c5,
         type: 3}
