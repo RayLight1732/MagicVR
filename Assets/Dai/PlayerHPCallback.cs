@@ -17,7 +17,7 @@ public class PlayerHPCallback : MonoBehaviour
 
     void OnHPChange(object sender, double hpValue)
     {
-        Debug.Log(hpValue);
+        
         HP hpComponent = (HP)sender;
         float hpPercent = (float)(hpValue / hpComponent.maxHP);
         var material = filter.GetComponent<Renderer>().material;
@@ -28,6 +28,7 @@ public class PlayerHPCallback : MonoBehaviour
         if (material.HasProperty(propertyName))
         {
             material.SetFloat(propertyName, hpPercent);
+            Debug.Log("red strength:" + hpPercent);
             
         }
         else

@@ -12,13 +12,15 @@ public class PlayerMPCallback : MonoBehaviour
 
     [SerializeField]
     public GameObject filter;
+    [SerializeField]
+    private string targetDeviceName;
 
 
     private void Awake()
     {
         MP mp = gameObject.GetComponent<MP>();
         mp.OnChangeHandler += OnMPChange;
-        Debug.Log(bluetooth.Connect("ESP32Test2"));
+        Debug.Log("Connect ESP32:"+bluetooth.Connect(targetDeviceName));
         bluetooth.Write("0.1\n");
     }
 

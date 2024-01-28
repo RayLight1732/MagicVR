@@ -55,9 +55,9 @@ public class Fireball : MonoBehaviour
     private bool checkCollision = true;
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (!ignores.Contains(other.gameObject) &&checkCollision && other.gameObject.GetComponent<IgnoreCollider>() == null)
         {
+            GetComponent<AudioSource>().Stop();
             collided = true;
             HP hp = other.gameObject.GetComponent<HP>();
             if (hp)

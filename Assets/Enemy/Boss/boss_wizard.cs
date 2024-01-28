@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class boss_wizard : MonoBehaviour {
@@ -30,11 +31,8 @@ public class boss_wizard : MonoBehaviour {
 
     }
 
-    private double aiTimer = 0;
     private double delayTimer = 0;
-    private bool free = true;
     private int motion = -1;//0->shoot fireball 1 -> warp 2->melee
-    private bool lastUpdateAnimator = false;
 
     private Vector3 warpPosition;
     private Quaternion warpRotation;
@@ -42,25 +40,31 @@ public class boss_wizard : MonoBehaviour {
     private const float rotationLimitOriginal = 60;
     private float rotationLimit = rotationLimitOriginal;
 
+    private bool changeState = false;
+
     // Update is called once per frame
     void Update() {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle_combat") && animator.GetCurrentAnimatorStateInfo(2).IsName("idle_warp")) {
-          
-            if (!lastUpdateAnimator) {
-                motion = -1;
+            if (!changeState)//when state was not changed
+            {
                 rotationLimit = rotationLimitOriginal;
-                if (delayTimer > 0) {
+                if (delayTimer > 0)
+                {
                     delayTimer -= Time.deltaTime;
-                } else  {
-                    motion = Random.Range(0,3);
-                    //motion = 2;
-                    //motion = 1;
-                    free = false;
-                    aiTimer = 0;
+                } else
+                {
+                    motion = Random.Range(0, 3);
+                    onEnter(motion);
                 }
             }
-        } else {
-            lastUpdateAnimator= false;
+        } 
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("dead"))
+        {
+            
+        }
+        else {
+            changeState = false;
+            motionTick(motion);
         }
         
         var targetPos = target.transform.position;
@@ -70,48 +74,65 @@ public class boss_wizard : MonoBehaviour {
             rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationLimit * Time.deltaTime);
             transform.rotation = rotation;
         }
+    }
 
-        if (!free) {
-            if (motion == 0) {
-                animator.SetTrigger("attack_magic_001");
-                free = true;
-                delayTimer = 3;
-            } else if (motion == 1) {
-                animator.SetTrigger("warp");
-                GameObject target = GameObject.FindWithTag("Player");
-                warpPosition = target.transform.position;
-                warpRotation = target.transform.rotation;
+    private void onEnter(int motionId)
+    {
+        if (motionId == 0)
+        {
+            animator.SetTrigger("attack_magic_001");
+            delayTimer = 3;
+            changeState = true;
+        }
+        else if (motionId == 1)
+        {
+            animator.SetTrigger("warp");
+            GameObject target = GameObject.FindWithTag("Player");
+            warpPosition = target.transform.position;
+            warpRotation = target.transform.rotation;
 
-                MeshRenderer quadRenderer = fieldQuad.GetComponent<MeshRenderer>();
-                Bounds quadBounds = quadRenderer.bounds;
+            MeshRenderer quadRenderer = fieldQuad.GetComponent<MeshRenderer>();
+            Bounds quadBounds = quadRenderer.bounds;
 
 
-                warpPosition = new Vector3(
-                    Random.Range(quadBounds.min.x, quadBounds.max.x),
-                    target.transform.position.y,
-                    Random.Range(quadBounds.min.z, quadBounds.max.z)
-                );
-                Debug.Log(warpPosition);
-                warpRotation = Quaternion.LookRotation(targetPos - warpPosition);
-                free = true;
-                delayTimer = 1;
-            } else if (motion == 2) {
+            warpPosition = new Vector3(
+                Random.Range(quadBounds.min.x, quadBounds.max.x),
+                target.transform.position.y,
+                Random.Range(quadBounds.min.z, quadBounds.max.z)
+            );
 
-                animator.SetBool("charge", true);
-                lastUpdateAnimator = true;
-                rotationLimit = rotationLimitOriginal * chargeSpeed / moveSpeed;
-                if (Vector3.Distance(transform.position, targetPos) < 1) {
-                    animator.SetBool("charge", false);
-                    free = true;
-                } else {
-                    transform.position += transform.forward * (float)(Time.deltaTime * chargeSpeed);
-                }
+            var targetPos = target.transform.position;
+            targetPos.y = 0;
+            warpRotation = Quaternion.LookRotation(targetPos - warpPosition);
+            delayTimer = 1;
+            changeState = true;
+        }
+        else if (motionId == 2)
+        {
+            animator.SetBool("charge", true);
+            changeState = true;
+            rotationLimit = rotationLimitOriginal * chargeSpeed / moveSpeed;
+        }
+    }
 
+    private void motionTick(int motionId)
+    {
+        if (motionId == 2)
+        {
+            var targetPos = target.transform.position;
+            targetPos.y = 0;
+            if (Vector3.Distance(transform.position, targetPos) < 1)
+            {
+                animator.SetBool("charge", false);
+                this.motion = -1;
+            }
+            else
+            {
+                transform.position += transform.forward * (float)(Time.deltaTime * chargeSpeed);
             }
         }
-
-        aiTimer += Time.deltaTime;
     }
+
 
     private void ThreeFireBall() {
     }
@@ -144,5 +165,10 @@ public class boss_wizard : MonoBehaviour {
             transform.SetPositionAndRotation(warpPosition, warpRotation);
             doWarp = false;
         }
+    }
+
+    private void OnDeathAnimationEnd()
+    {
+        Destroy(gameObject);
     }
 }

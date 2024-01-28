@@ -24,6 +24,7 @@ public class ShootProjectile : StateMachineBehaviour
         for (int i = 0; i < shooterManager.ignores.Count; i++)
         {
             projectileManager.ignores.Add(shooterManager.ignores[i]);
+            Debug.Log("ignore:"+shooterManager.ignores[i].name);
         }
 
         bullet.transform.forward = shootTransform.forward;

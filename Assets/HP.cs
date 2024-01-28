@@ -23,16 +23,19 @@ public class HP : MonoBehaviour
                 float percent = (float)_hp / maxHP;
                 HPGage.fillAmount = percent;
             }
-            Debug.Log("set");
         }
         get => _hp;
+    }
+
+    public HP()
+    {
+        _hp = maxHP;
     }
 
     public event EventHandler<double> OnChangeHandler;
 
     private void OnEnable()
     {
-        _hp = maxHP;
     }
     // Start is called before the first frame update
     void Start()
