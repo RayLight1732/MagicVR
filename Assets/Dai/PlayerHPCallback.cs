@@ -17,23 +17,29 @@ public class PlayerHPCallback : MonoBehaviour
 
     void OnHPChange(object sender, double hpValue)
     {
-        
-        HP hpComponent = (HP)sender;
-        float hpPercent = (float)(hpValue / hpComponent.maxHP);
-        var material = filter.GetComponent<Renderer>().material;
-        if(hpValue<=0){
+        if (filter != null)
+        {
+            HP hpComponent = (HP)sender;
+            float hpPercent = (float)(hpValue / hpComponent.maxHP);
+            var material = filter.GetComponent<Renderer>().material;
+            if (hpValue <= 0)
+            {
                 Debug.Log("Gameover");
                 Gameover();
             }
-        if (material.HasProperty(propertyName))
+            if (material.HasProperty(propertyName))
+            {
+                material.SetFloat(propertyName, hpPercent);
+                Debug.Log("red strength:" + hpPercent);
+
+            }
+            else
+            {
+                Debug.Log(propertyName + " was not found in filter renderer");
+            }
+        } else
         {
-            material.SetFloat(propertyName, hpPercent);
-            Debug.Log("red strength:" + hpPercent);
-            
-        }
-        else
-        {
-            Debug.Log(propertyName + " was not found in filter renderer");
+            Debug.Log("filter is null");
         }
     }
 

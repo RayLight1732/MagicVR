@@ -9,6 +9,11 @@ public class boss_wizard : MonoBehaviour {
     private GameObject darkball;
     [SerializeField]
     private GameObject darkball_anchor;
+    [SerializeField]
+    private AudioSource warpSound;
+    [SerializeField]
+    private AudioSource windSound;
+   
 
     public float moveSpeed = 1;
     public float chargeSpeed = 3;
@@ -104,7 +109,7 @@ public class boss_wizard : MonoBehaviour {
             var targetPos = target.transform.position;
             targetPos.y = 0;
             warpRotation = Quaternion.LookRotation(targetPos - warpPosition);
-            delayTimer = 1;
+            delayTimer = 0.3;
             changeState = true;
         }
         else if (motionId == 2)
@@ -170,5 +175,15 @@ public class boss_wizard : MonoBehaviour {
     private void OnDeathAnimationEnd()
     {
         Destroy(gameObject);
+    }
+
+    private void PlayWarpSound()
+    {
+        warpSound.Play();
+    }
+
+    private void PlayWindSound()
+    {
+        windSound.Play();
     }
 }
