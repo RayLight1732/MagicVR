@@ -21,7 +21,7 @@ public class eyeControl : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         eyeControlScript.FindEnter(other);
     }
@@ -29,5 +29,5 @@ public class eyeControl : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         eyeControlScript.FindExit(other);
-    }
+    }*/
 }
