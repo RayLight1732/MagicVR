@@ -19,7 +19,8 @@ public class Enemy2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-  
+        Target = GameObject.Find("Player");
+        EnemyController.SetBool("Run", true);
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class Enemy2 : MonoBehaviour
 
             // プレイヤーとの距離を計算
             float distanceToPlayer = Vector3.Distance(transform.position, Target.transform.position);
-
+            
             // プレイヤーが攻撃範囲内にいるか判断
             if (distanceToPlayer <= AttackDistance)
             {
@@ -94,7 +95,7 @@ public class Enemy2 : MonoBehaviour
         transform.Translate(speed * Time.deltaTime);
     }
 
-    public void FindEnter(Collider other)
+    /*public void FindEnter(Collider other)
     {
         if (other.tag == "Player")
         {
@@ -110,7 +111,7 @@ public class Enemy2 : MonoBehaviour
             Target = null;
             EnemyController.SetBool("Run", false);
         }
-    }
+    }*/
 
     private void Death(){
         HP hp = this.GetComponent<HP>();

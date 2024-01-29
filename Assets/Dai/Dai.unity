@@ -575,6 +575,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial MP
       objectReference: {fileID: 0}
+    - target: {fileID: 3735248822547731871, guid: 778da5f8ecb44624f972988c7e282846,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5591502789874098887, guid: 778da5f8ecb44624f972988c7e282846,
         type: 3}
       propertyPath: m_Text
@@ -960,7 +965,7 @@ PrefabInstance:
     - target: {fileID: 7227498390949132880, guid: a44c8e3cd4524a94691e66e33398cc73,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6417,12 +6422,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quad: {fileID: 1825298545}
   player: {fileID: 1447251921}
-  enemy1: {fileID: 6577307914859805191, guid: 7955d5df7afec5041b41f029e0d8b38b, type: 3}
-  enemy2: {fileID: 0}
+  enemies:
+  - {fileID: 2892793471163909760, guid: d4e35cbd94c54f746bfd2b5369390da1, type: 3}
+  enepyPositions:
+  - {x: 0, y: 1, z: 0}
+  rotation: {x: 0, y: 0, z: 0}
   gate: {fileID: 1359652382}
-  x: 0
-  y: 1
-  z: 12
 --- !u!1 &1893592146
 GameObject:
   m_ObjectHideFlags: 0
