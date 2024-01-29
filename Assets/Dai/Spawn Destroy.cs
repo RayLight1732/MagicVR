@@ -10,44 +10,46 @@ public class SpawnDestroy : MonoBehaviour
     [SerializeField]
     private GameObject player;
     [SerializeField]
-    private GameObject enemy1;
+    private GameObject[] enemies;
     [SerializeField]
-    private GameObject enemy2;
+    private Vector3[] enepyPositions;
+    [SerializeField]
+    private Vector3 rotation;
     [SerializeField]
     private GameObject gate;
     private Vector3 playerpos;
-    public float x;
-    public float y;
-    public float z;
-    private bool spawnflag;
+    private bool spawnflag = false;
+    private bool destroyFlag = false;
     private GameObject[] enemyBox;
     // Start is called before the first frame update
+
+    private void Awake() {
+        enemyBox = new GameObject[enemies.Length];
+    }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        enemyBox = GameObject.FindGameObjectsWithTag("Enemy");
         MeshRenderer quadRenderer = quad.GetComponent<MeshRenderer>();
         Bounds quadBounds = quadRenderer.bounds;
         playerpos = player.transform.position;
-        Vector3 enemypos = new Vector3(x,y,z);
-        Vector3 v = new Vector3(5,0,0);
         if(!spawnflag){
             if(quadBounds.min.x <= playerpos.x && playerpos.x <= quadBounds.max.x 
             && quadBounds.min.z <= playerpos.z && playerpos.z <= quadBounds.max.z){
-                Instantiate(enemy1,enemypos,Quaternion.identity);
-                if(enemy2 != null){
-                    Instantiate(enemy2,enemypos + v,Quaternion.identity);
+                spawnflag= true;
+                Quaternion rotation = Quaternion.Euler(this.rotation);
+                for (int i = 0;i < enemies.Length; i++) {
+                    enemyBox[i] = Instantiate(enemies[i], enepyPositions[i],rotation);
                 }
                 spawnflag = true;
-                bool allnull = enemyBox.All(item => item == null);
-                if(allnull){
-                    Destroy(gate);
-                }
+            }
+        } else {
+            if (!destroyFlag && enemyBox.All(item => item == null)) {
+                Destroy(gate);
             }
         }
     }

@@ -19,6 +19,7 @@ public class boss_short_hit : MonoBehaviour
     private List<GameObject> objects = new List<GameObject>();
 
     private void OnTriggerEnter(Collider other) {
+        Debug.Log(other.gameObject.name);
         if (!objects.Contains(other.gameObject)) {
             objects.Add(other.gameObject);
             HP hp = other.GetComponent<HP>();

@@ -77,7 +77,8 @@ public class ChargeManager : MonoBehaviour
     {
         if (instaitiated != null)
         {
-            instaitiated.GetComponent<ChargeStateManager>().SetStateDestroy(false);
+            instaitiated.GetComponent<ChargeStateManager>().SetStateDestroy(true);
+            Debug.Log("Fail2");
             instaitiated = null;
         }
         charging= false;
