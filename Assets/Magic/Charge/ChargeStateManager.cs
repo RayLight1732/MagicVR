@@ -20,6 +20,8 @@ public class ChargeStateManager : MonoBehaviour
     private AudioSource aura;
     [SerializeField]
     private AudioSource failSound;
+    [SerializeField]
+    private Animator animator;
 
 
     private ChargeState state = ChargeState.Deploy;

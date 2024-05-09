@@ -6,6 +6,8 @@ public class SwordHolder : MonoBehaviour
 {
     [SerializeField]
     private GameObject sword;
+    [SerializeField]
+    private AudioSource swingSound;
 
     private SwordDamageHandler handler;
 
@@ -20,6 +22,7 @@ public class SwordHolder : MonoBehaviour
     }
 
     private Vector3? lastPos = null;
+    private bool sound = false;
 
     // Update is called once per frame
     void Update()
@@ -28,8 +31,14 @@ public class SwordHolder : MonoBehaviour
         if (lastPos is Vector3 lastPos_)
         {
             Vector3 speed = lastPos_ - pos;
-            handler.SetSpeed(speed.magnitude);
-            
+            float speedValue = speed.magnitude/Time.deltaTime;
+            handler.SetSpeed(speedValue);
+            if (speedValue > 6 && !sound) {
+                sound = true;
+                swingSound.Play();
+            } else if (speedValue < 2 && sound) {
+                sound= false;
+            }
         }
         lastPos = pos;
     }

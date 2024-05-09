@@ -36,7 +36,7 @@ public class boss_wizard : MonoBehaviour {
 
     }
 
-    private double delayTimer = 0;
+    private double delayTimer = 1;
     private int motion = -1;//0->shoot fireball 1 -> warp 2->melee
 
     private Vector3 warpPosition;
@@ -58,7 +58,7 @@ public class boss_wizard : MonoBehaviour {
                     delayTimer -= Time.deltaTime;
                 } else
                 {
-                    motion = Random.Range(0, 3);
+                    motion = GetNextMotion();
                     onEnter(motion);
                 }
             }
@@ -78,6 +78,17 @@ public class boss_wizard : MonoBehaviour {
         if (rotation != null) {
             rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationLimit * Time.deltaTime);
             transform.rotation = rotation;
+        }
+    }
+
+    private bool first = true;
+
+    private int GetNextMotion() {
+        if (first) {
+            first = false;
+            return 0;
+        } else {
+            return Random.Range(0, 3);
         }
     }
 

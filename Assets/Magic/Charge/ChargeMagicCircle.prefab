@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aura: {fileID: 8765355232704073414}
   failSound: {fileID: 4528673620330588937}
+  animator: {fileID: 1919121205526224198}
 --- !u!82 &8765355232704073414
 AudioSource:
   m_ObjectHideFlags: 0

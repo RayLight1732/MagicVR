@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class boss_short_hit : MonoBehaviour
 {
+    [SerializeField]
+    private AudioSource hitSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +22,11 @@ public class boss_short_hit : MonoBehaviour
     private List<GameObject> objects = new List<GameObject>();
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log(other.gameObject.name);
         if (!objects.Contains(other.gameObject)) {
             objects.Add(other.gameObject);
             HP hp = other.GetComponent<HP>();
             if (hp != null) {
+                hitSound.Play();
                 hp.removeHP(5);
             }
         }
